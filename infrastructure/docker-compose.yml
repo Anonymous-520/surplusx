@@ -1,0 +1,163 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: surplusx_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - surplusx_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ../services/api-gateway
+      dockerfile: Dockerfile
+    container_name: surplusx_api_gateway
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  # Auth Service
+  auth-service:
+    build:
+      context: ../services/auth-service
+      dockerfile: Dockerfile
+    container_name: surplusx_auth_service
+    ports:
+      - "${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  # Food Service
+  food-service:
+    build:
+      context: ../services/food-service
+      dockerfile: Dockerfile
+    container_name: surplusx_food_service
+    ports:
+      - "${FOOD_SERVICE_PORT}:${FOOD_SERVICE_PORT}"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  # Matching Service
+  matching-service:
+    build:
+      context: ../services/matching-service
+      dockerfile: Dockerfile
+    container_name: surplusx_matching_service
+    ports:
+      - "${MATCHING_SERVICE_PORT}:${MATCHING_SERVICE_PORT}"
+    environment:
+      - FOOD_SERVICE_URL=http://food-service:${FOOD_SERVICE_PORT}
+      - NGO_SERVICE_URL=http://ngo-service:3010
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  # AI Service (Python)
+  ai-service:
+    build:
+      context: ../services/ai-service
+      dockerfile: Dockerfile
+    container_name: surplusx_ai_service
+    ports:
+      - "${AI_SERVICE_PORT}:${AI_SERVICE_PORT}"
+    volumes:
+      - ../data/models:/app/models
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  # Frontend Apps
+  donor-dashboard:
+    build:
+      context: ../apps/donor-dashboard
+      dockerfile: Dockerfile
+    container_name: surplusx_donor_dashboard
+    ports:
+      - "3001:3000"
+    environment:
+      - VITE_API_URL=http://localhost:${API_PORT}
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  ngo-dashboard:
+    build:
+      context: ../apps/ngo-dashboard
+      dockerfile: Dockerfile
+    container_name: surplusx_ngo_dashboard
+    ports:
+      - "3002:3000"
+    environment:
+      - VITE_API_URL=http://localhost:${API_PORT}
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+  admin-panel:
+    build:
+      context: ../apps/admin-panel
+      dockerfile: Dockerfile
+    container_name: surplusx_admin_panel
+    ports:
+      - "3003:3000"
+    environment:
+      - VITE_API_URL=http://localhost:${API_PORT}
+    networks:
+      - surplusx_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  surplusx_network:
+    driver: bridge

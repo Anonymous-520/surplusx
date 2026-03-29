@@ -1,0 +1,372 @@
+
+> surplusx@1.0.0 dev
+> concurrently "npm run dev --workspace=apps/donor-dashboard" "npm run dev --workspace=services/api-gateway" "npm run dev --workspace=services/matching-service" "npm run start --workspace=services/ai-service"
+
+[0] 
+[0] > donor-dashboard@1.0.0 dev
+[0] > vite
+[0] 
+[1] 
+[1] > api-gateway@1.0.0 dev
+[1] > nodemon src/server.js
+[1] 
+[3] 
+[3] > ai-service@1.0.0 start
+[3] > python main.py
+[3] 
+[2] 
+[2] > matching-service@1.0.0 dev
+[2] > nodemon src/index.js
+[2] 
+[3] python: can't open file 'C:\\Users\\Saksham Rastogi\\surplusx\\services\\ai-service\\main.py': [Errno 2] No such file or directory
+[3] npm error Lifecycle script `start` failed with error:
+[3] npm error code 2
+[3] npm error path C:\Users\Saksham Rastogi\surplusx\services\ai-service
+[3] npm error workspace ai-service@1.0.0
+[3] npm error location C:\Users\Saksham Rastogi\surplusx\services\ai-service
+[3] npm error command failed
+[3] npm error command C:\WINDOWS\system32\cmd.exe /d /s /c python main.py
+[3] npm run start --workspace=services/ai-service exited with code 2
+[2] [33m[nodemon] 3.1.14[39m
+[1] [33m[nodemon] 3.1.14[39m
+[1] [33m[nodemon] to restart at any time, enter `rs`[39m
+[1] [33m[nodemon] watching path(s): *.*[39m
+[1] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[1] [32m[nodemon] starting `node src/server.js`[39m
+[2] [33m[nodemon] to restart at any time, enter `rs`[39m
+[2] [33m[nodemon] watching path(s): *.*[39m
+[2] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[2] [32m[nodemon] starting `node src/index.js dist/index.js`[39m
+[2] node:internal/modules/cjs/loader:1210
+[2]   throw err;
+[2]   ^
+[2] 
+[2] Error: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\matching-service\dist\index.js'
+[2]     at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+[2]     at Module._load (node:internal/modules/cjs/loader:1038:27)
+[2]     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+[2]     at node:internal/main/run_main_module:28:49 {
+[2]   code: 'MODULE_NOT_FOUND',
+[2]   requireStack: []
+[2] }
+[2] 
+[2] Node.js v20.20.2
+[2] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[0] 
+[0]   [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m246[22m[2m[0m ms[22m
+[0] 
+[0]   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[0] [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[1] node:internal/modules/esm/resolve:283
+[1]     throw new ERR_MODULE_NOT_FOUND(
+[1]           ^
+[1] 
+[1] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\routes\food.routes.js' imported from C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\server.js
+[1]     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+[1]     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+[1]     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+[1]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+[1]     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+[1]     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+[1]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+[1]     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+[1]   code: 'ERR_MODULE_NOT_FOUND',
+[1]   url: 'file:///C:/Users/Saksham%20Rastogi/surplusx/services/api-gateway/src/routes/food.routes.js'
+[1] }
+[1] 
+[1] Node.js v20.20.2
+[1] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[1] [32m[nodemon] restarting due to changes...[39m
+[1] [32m[nodemon] starting `node src/server.js`[39m
+[1] [32m[nodemon] restarting due to changes...[39m
+[1] node:internal/modules/esm/resolve:283
+[1]     throw new ERR_MODULE_NOT_FOUND(
+[1]           ^
+[1] 
+[1] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\routes\user.routes.js' imported from C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\server.js
+[1]     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+[1]     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+[1]     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+[1]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+[1]     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+[1]     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+[1]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+[1]     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+[1]   code: 'ERR_MODULE_NOT_FOUND',
+[1]   url: 'file:///C:/Users/Saksham%20Rastogi/surplusx/services/api-gateway/src/routes/user.routes.js'
+[1] }
+[1] 
+[1] Node.js v20.20.2
+[1] [32m[nodemon] starting `node src/server.js`[39m
+[1] node:internal/modules/esm/resolve:283
+[1]     throw new ERR_MODULE_NOT_FOUND(
+[1]           ^
+[1] 
+[1] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\routes\user.routes.js' imported from C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\server.js
+[1]     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+[1]     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+[1]     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+[1]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+[1]     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+[1]     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+[1]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+[1]     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+[1]   code: 'ERR_MODULE_NOT_FOUND',
+[1]   url: 'file:///C:/Users/Saksham%20Rastogi/surplusx/services/api-gateway/src/routes/user.routes.js'
+[1] }
+[1] 
+[1] Node.js v20.20.2
+[1] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[1] [32m[nodemon] restarting due to changes...[39m
+[1] [32m[nodemon] starting `node src/server.js`[39m
+[1] node:internal/modules/esm/resolve:283
+[1]     throw new ERR_MODULE_NOT_FOUND(
+[1]           ^
+[1] 
+[1] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\routes\user.routes.js' imported from C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\server.js
+[1]     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+[1]     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+[1]     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+[1]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+[1]     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+[1]     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+[1]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+[1]     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+[1]   code: 'ERR_MODULE_NOT_FOUND',
+[1]   url: 'file:///C:/Users/Saksham%20Rastogi/surplusx/services/api-gateway/src/routes/user.routes.js'
+[1] }
+[1] 
+[1] Node.js v20.20.2
+[1] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[1] [32m[nodemon] restarting due to changes...[39m
+[1] [32m[nodemon] starting `node src/server.js`[39m
+[1] node:internal/modules/esm/resolve:283
+[1]     throw new ERR_MODULE_NOT_FOUND(
+[1]           ^
+[1] 
+[1] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\routes\user.routes.js' imported from C:\Users\Saksham Rastogi\surplusx\services\api-gateway\src\server.js
+[1]     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+[1]     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+[1]     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+[1]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+[1]     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+[1]     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+[1]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+[1]     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+[1]   code: 'ERR_MODULE_NOT_FOUND',
+[1]   url: 'file:///C:/Users/Saksham%20Rastogi/surplusx/services/api-gateway/src/routes/user.routes.js'
+[1] }
+[1] 
+[1] Node.js v20.20.2
+[1] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[0] [2m5:50:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[0] [2m5:50:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[0] [2m5:51:10 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/History" from "src/App.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/App.jsx[39m:7:20
+[0] [33m  5  |  import Dashboard from "./pages/Dashboard";
+[0]   6  |  import CreateListing from "./pages/CreateListing";
+[0]   7  |  import History from "./pages/History";
+[0]      |                       ^
+[0]   8  |  import Navbar from "./components/Navbar";
+[0]   9  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/App.jsx";[39m
+[0] [2m5:51:10 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../components/StatusTracker" from "src/pages/Dashboard.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:5:26
+[0] [33m  3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";
+[0]      |                             ^
+[0]   6  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx";
+[0]   7  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0] [2m5:51:15 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33m@mui/material, @mui/material/CssBaseline, @mui/material/styles, react-dom/client, react-router-dom, react, react/jsx-dev-runtime[32m[39m
+[0] [2m5:51:40 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/CreateListing" from "src/App.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/App.jsx[39m:6:26
+[0] [33m  4  |  import CssBaseline from "@mui/material/CssBaseline";
+[0]   5  |  import Dashboard from "./pages/Dashboard";
+[0]   6  |  import CreateListing from "./pages/CreateListing";
+[0]      |                             ^
+[0]   7  |  import History from "./pages/History";
+[0]   8  |  import Navbar from "./components/Navbar";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 5)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:51:40 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0] [2m5:52:32 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/components/Navbar.jsx[22m
+[0] [2m5:52:33 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../components/FoodCard" from "src/pages/Dashboard.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:4:21
+[0] [33m  2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]      |                        ^
+[0]   5  |  import StatusTracker from "../components/StatusTracker";
+[0]   6  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx";[39m
+[0] [2m5:52:33 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:33 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/pages/CreateListing.jsx[22m
+[0] [2m5:52:33 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/components/Navbar.jsx[22m
+[0] [2m5:52:34 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0] [2m5:52:34 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/api" from "src/components/FoodForm.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx[39m:3:34
+[0] [33m  1  |  import React, { useState } from "react";
+[0]   2  |  import { TextField, Button, Box, MenuItem, Typography, Paper } from "@mui/material";
+[0]   3  |  import { createFoodListing } from "../services/api";
+[0]      |                                     ^
+[0]   4  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx";
+[0]   5  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0] [2m5:52:34 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:34 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/components/FoodForm.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx[39m:3:34
+[0] [33m  1  |  import React, { useState } from "react";
+[0]   2  |  import { TextField, Button, Box, MenuItem, Typography, Paper } from "@mui/material";
+[0]   3  |  import { createFoodListing } from "../services/api";
+[0]      |                                     ^
+[0]   4  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx";
+[0]   5  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:34 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/pages/History.jsx[22m
+[0] [2m5:52:35 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0] [2m5:52:35 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/api" from "src/pages/History.jsx". Does the file exist?
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/History.jsx[39m:11:35
+[0] [33m  1  |  import React, { useEffect, useState } from "react";
+[0]   2  |  import { Container, Typography, Card, CardContent, CircularProgress, Chip, Stack } from "@mui/material";
+[0]   3  |  import { getDonationHistory } from "../services/api";
+[0]      |                                      ^
+[0]   4  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/History.jsx";
+[0]   5  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0] [2m5:52:35 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/pages/Dashboard.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/Dashboard.jsx[39m:3:46
+[0] [33m  1  |  import React, { useState, useEffect } from "react";
+[0]   2  |  import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
+[0]   3  |  import { getFoodListings, getUserStats } from "../services/api";
+[0]      |                                                 ^
+[0]   4  |  import FoodCard from "../components/FoodCard";
+[0]   5  |  import StatusTracker from "../components/StatusTracker";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:35 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/pages/History.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/History.jsx[39m:11:35
+[0] [33m  1  |  import React, { useEffect, useState } from "react";
+[0]   2  |  import { Container, Typography, Card, CardContent, CircularProgress, Chip, Stack } from "@mui/material";
+[0]   3  |  import { getDonationHistory } from "../services/api";
+[0]      |                                      ^
+[0]   4  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/pages/History.jsx";
+[0]   5  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:35 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/api" from "src/components/FoodForm.jsx". Does the file exist?[39m
+[0]   Plugin: [35mvite:import-analysis[39m
+[0]   File: [36mC:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx[39m:3:34
+[0] [33m  1  |  import React, { useState } from "react";
+[0]   2  |  import { TextField, Button, Box, MenuItem, Typography, Paper } from "@mui/material";
+[0]   3  |  import { createFoodListing } from "../services/api";
+[0]      |                                     ^
+[0]   4  |  var _jsxFileName = "C:/Users/Saksham Rastogi/surplusx/apps/donor-dashboard/src/components/FoodForm.jsx";
+[0]   5  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[0]       at TransformPluginContext._formatLog (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30259:39)
+[0]       at TransformPluginContext.error (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30256:14)
+[0]       at normalizeUrl (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27544:18)
+[0]       at async file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27607:30
+[0]       at async Promise.all (index 2)
+[0]       at async TransformPluginContext.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:27575:4)
+[0]       at async EnvironmentPluginContainer.transform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:30048:14)
+[0]       at async loadAndTransform (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24177:26)
+[0]       at async viteTransformMiddleware (file:///C:/Users/Saksham%20Rastogi/surplusx/apps/donor-dashboard/node_modules/vite/dist/node/chunks/node.js:24986:20)
+[0] [2m5:52:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/components/FoodCard.jsx[22m
+[0] [2m5:52:48 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/components/FoodCard.jsx[22m
+[0] [2m5:52:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/components/StatusTracker.jsx[22m
+[0] [2m5:52:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/services/api.js[22m
+[0] [2m5:52:50 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33maxios[32m[39m
+[0] [2m5:52:50 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ optimized dependencies changed. reloading[39m
