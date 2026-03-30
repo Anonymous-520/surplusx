@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "setup": "npm install --workspaces --include-workspace-root",
-    "dev": "concurrently \"npm run dev --workspace=apps/donor-dashboard\" \"npm run dev --workspace=services/api-gateway\" \"npm run dev --workspace=services/matching-service\" \"npm run start --workspace=services/ai-service\"",
+    "hub:install": "npm install --workspace=services/api-gateway --workspace=services/matching-service --workspace=services/food-service --workspace=services/auth-service --workspace=services/delivery-service --workspace=apps/donor-dashboard",
+    "dev": "concurrently \"npm run dev --workspace=apps/donor-dashboard\" \"npm run dev:backend\"",
+    "dev:backend": "concurrently \"npm run dev --workspace=services/api-gateway\" \"npm run dev --workspace=services/matching-service\" \"npm run dev --workspace=services/food-service\" \"npm run dev --workspace=services/auth-service\" \"npm run dev --workspace=services/delivery-service\" \"npm run start --workspace=services/ai-service\"",
     "build": "npm run build --workspace=apps/donor-dashboard && npm run build --workspace=apps/ngo-dashboard && npm run build --workspace=apps/admin-panel",
     "test": "npm test --workspace=tests",
     "start": "npm start --workspace=services/api-gateway"

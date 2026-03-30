@@ -17,15 +17,28 @@ const io = new Server(httpServer, {
 });
 
 const PORT = process.env.DELIVERY_SERVICE_PORT || 3004;
+const hasMongoConfig = Boolean(process.env.DB_HOST && process.env.DB_PORT && process.env.DB_NAME);
+let useDatabase = false;
+const inMemoryDeliveries = [];
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
-mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
-  .then(() => console.log('🔗 Delivery service connected to MongoDB'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+// Database connection (optional for local development)
+if (hasMongoConfig) {
+  mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
+    .then(() => {
+      useDatabase = true;
+      console.log('🔗 Delivery service connected to MongoDB');
+    })
+    .catch(() => {
+      useDatabase = false;
+      console.warn('⚠️ Delivery service running in in-memory mode (MongoDB unavailable)');
+    });
+} else {
+  console.log('ℹ️ Delivery service running in in-memory mode (MongoDB not configured)');
+}
 
 // Real-time delivery tracking
 io.on('connection', (socket) => {
@@ -46,15 +59,30 @@ app.post('/api/deliveries', async (req, res) => {
   try {
     const { foodListingId, ngoId, volunteerId, route } = req.body;
 
-    const delivery = new Delivery({
-      foodListingId,
-      ngoId,
-      volunteerId,
-      status: 'ASSIGNED',
-      route
-    });
+    const delivery = useDatabase
+      ? new Delivery({
+        foodListingId,
+        ngoId,
+        volunteerId,
+        status: 'ASSIGNED',
+        route
+      })
+      : {
+        _id: `delivery_${Date.now()}`,
+        foodListingId,
+        ngoId,
+        volunteerId,
+        status: 'ASSIGNED',
+        route,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
 
-    await delivery.save();
+    if (useDatabase) {
+      await delivery.save();
+    } else {
+      inMemoryDeliveries.push(delivery);
+    }
 
     // Notify clients
     io.to(delivery._id.toString()).emit('delivery-update', {
@@ -73,11 +101,22 @@ app.post('/api/deliveries', async (req, res) => {
 app.put('/api/deliveries/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
-    const delivery = await Delivery.findByIdAndUpdate(
-      req.params.id,
-      { status, updatedAt: new Date() },
-      { new: true }
-    );
+    const delivery = useDatabase
+      ? await Delivery.findByIdAndUpdate(
+        req.params.id,
+        { status, updatedAt: new Date() },
+        { new: true }
+      )
+      : (() => {
+        const existing = inMemoryDeliveries.find((item) => item._id === req.params.id);
+        if (!existing) {
+          return null;
+        }
+
+        existing.status = status;
+        existing.updatedAt = new Date();
+        return existing;
+      })();
 
     if (!delivery) {
       return res.status(404).json({ error: 'Delivery not found' });
@@ -99,10 +138,12 @@ app.put('/api/deliveries/:id/status', async (req, res) => {
 // Get delivery by ID
 app.get('/api/deliveries/:id', async (req, res) => {
   try {
-    const delivery = await Delivery.findById(req.params.id)
-      .populate('foodListingId')
-      .populate('ngoId')
-      .populate('volunteerId');
+    const delivery = useDatabase
+      ? await Delivery.findById(req.params.id)
+        .populate('foodListingId')
+        .populate('ngoId')
+        .populate('volunteerId')
+      : inMemoryDeliveries.find((item) => item._id === req.params.id);
 
     if (!delivery) {
       return res.status(404).json({ error: 'Delivery not found' });

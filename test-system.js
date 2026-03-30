@@ -1,5 +1,9 @@
 import { matchNgo, batchMatchNgos } from './services/matching-service/src/services/matchNgo.js';
-import { calculateFreshnessScore, calculateSpoilageRisk, calculateEdibilityScore } from './services/ai-service/src/logic/freshnessScore.py';
+import {
+  calculateFreshnessScore,
+  calculateSpoilageRisk,
+  calculateEdibilityScore
+} from './services/ai-service/src/logic/freshnessScore.js';
 
 console.log('🚀 SurplusX Complete System Test');
 console.log('=================================\n');

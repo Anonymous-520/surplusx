@@ -1,7 +1,7 @@
 // Food Controller - API Gateway
 import axios from 'axios';
 
-const FOOD_SERVICE_URL = process.env.FOOD_SERVICE_URL || 'http://food-service:3002';
+const FOOD_SERVICE_URL = process.env.FOOD_SERVICE_URL || 'http://localhost:3002';
 
 export const createFoodListing = async (req, res) => {
   try {

@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 import foodRoutes from './routes/food.routes.js';
 import userRoutes from './routes/user.routes.js';
 import deliveryRoutes from './routes/delivery.routes.js';
-import authMiddleware from './middleware/auth.middleware.js';
 import errorMiddleware from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -22,9 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/food', authMiddleware, foodRoutes);
+app.use('/api/food', foodRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/deliveries', authMiddleware, deliveryRoutes);
+app.use('/api/deliveries', deliveryRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

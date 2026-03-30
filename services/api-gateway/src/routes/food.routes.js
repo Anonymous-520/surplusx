@@ -1,7 +1,9 @@
 import express from 'express';
+import axios from 'axios';
 import { createFoodListing, getFoodListings, getFoodListingById } from '../controllers/food.controller.js';
 
 const router = express.Router();
+const MATCHING_SERVICE_URL = process.env.MATCHING_SERVICE_URL || 'http://localhost:3003';
 
 // Create a new food listing
 router.post('/', createFoodListing);
@@ -15,9 +17,7 @@ router.get('/:id', getFoodListingById);
 // Get matches for a food listing
 router.get('/:id/matches', async (req, res) => {
   try {
-    // This would call the matching service
-    const response = await fetch(`http://matching-service:3003/api/match/${req.params.id}`);
-    const data = await response.json();
+    const { data } = await axios.get(`${MATCHING_SERVICE_URL}/api/match/${req.params.id}`);
     res.json(data);
   } catch (error) {
     console.error('Matching service error:', error);

@@ -63,6 +63,45 @@ cd ../../apps/donor-dashboard && npm install
 
 ## 🚀 Running the System
 
+### ✅ Verified Backend Bring-up (Run Together)
+
+Use these exact install commands first:
+
+```bash
+cd services/api-gateway && npm install
+cd ../matching-service && npm install
+cd ../food-service && npm install
+cd ../auth-service && npm install
+cd ../delivery-service && npm install
+cd ../../apps/donor-dashboard && npm install
+```
+
+Then start all backend services together from repo root:
+
+```bash
+cd surplusx
+npm run dev:backend
+```
+
+This starts:
+- API Gateway (`3000`)
+- Auth Service (`3001`)
+- Food Service (`3002`)
+- Matching Service (`3003`)
+- Delivery Service (`3004`)
+- AI Service (`3007`)
+
+Health checks:
+
+```bash
+curl http://localhost:3000/health
+curl http://localhost:3001/health
+curl http://localhost:3002/health
+curl http://localhost:3003/health
+curl http://localhost:3004/health
+curl http://localhost:3007/health
+```
+
 ### Option 1: Run Individual Services (Development)
 
 ```bash

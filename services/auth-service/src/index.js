@@ -9,15 +9,29 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.AUTH_SERVICE_PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || 'surplusx-dev-secret';
+const hasMongoConfig = Boolean(process.env.DB_HOST && process.env.DB_PORT && process.env.DB_NAME);
+let useDatabase = false;
+const inMemoryUsers = [];
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
-mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
-  .then(() => console.log('🔗 Auth service connected to MongoDB'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+// Database connection (optional for local development)
+if (hasMongoConfig) {
+  mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
+    .then(() => {
+      useDatabase = true;
+      console.log('🔗 Auth service connected to MongoDB');
+    })
+    .catch(() => {
+      useDatabase = false;
+      console.warn('⚠️ Auth service running in in-memory mode (MongoDB unavailable)');
+    });
+} else {
+  console.log('ℹ️ Auth service running in in-memory mode (MongoDB not configured)');
+}
 
 // User registration
 app.post('/api/auth/register', async (req, res) => {
@@ -25,7 +39,9 @@ app.post('/api/auth/register', async (req, res) => {
     const { name, email, password, phone, role } = req.body;
 
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = useDatabase
+      ? await User.findOne({ email })
+      : inMemoryUsers.find((user) => user.email === email);
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists' });
     }
@@ -35,20 +51,33 @@ app.post('/api/auth/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      phone,
-      role
-    });
+    const user = useDatabase
+      ? new User({
+        name,
+        email,
+        password: hashedPassword,
+        phone,
+        role
+      })
+      : {
+        _id: `user_${Date.now()}`,
+        name,
+        email,
+        password: hashedPassword,
+        phone,
+        role
+      };
 
-    await user.save();
+    if (useDatabase) {
+      await user.save();
+    } else {
+      inMemoryUsers.push(user);
+    }
 
     // Generate token
     const token = jwt.sign(
       { userId: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
     );
 
@@ -73,7 +102,9 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = useDatabase
+      ? await User.findOne({ email })
+      : inMemoryUsers.find((item) => item.email === email);
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -87,7 +118,7 @@ app.post('/api/auth/login', async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { userId: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
     );
 
@@ -114,8 +145,12 @@ app.get('/api/auth/me', async (req, res) => {
       return res.status(401).json({ error: 'No token provided' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId).select('-password');
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = useDatabase
+      ? await User.findById(decoded.userId).select('-password')
+      : inMemoryUsers
+        .filter((item) => item._id === decoded.userId)
+        .map(({ password, ...safeUser }) => safeUser)[0];
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
