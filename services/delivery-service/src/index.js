@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 // Create delivery
 app.post('/api/deliveries', async (req, res) => {
   try {
-    const { foodListingId, ngoId, volunteerId, route } = req.body;
+    const { foodListingId, ngoId, volunteerId, route, estimatedDuration, distance, notes } = req.body;
 
     const delivery = useDatabase
       ? new Delivery({
@@ -66,7 +66,10 @@ app.post('/api/deliveries', async (req, res) => {
         ngoId,
         volunteerId,
         status: 'ASSIGNED',
-        route
+        route,
+        estimatedDuration: estimatedDuration || 'TBD',
+        distance: Number(distance) || 0,
+        notes: notes || ''
       })
       : {
         _id: `delivery_${Date.now()}`,
@@ -75,6 +78,9 @@ app.post('/api/deliveries', async (req, res) => {
         volunteerId,
         status: 'ASSIGNED',
         route,
+        estimatedDuration: estimatedDuration || 'TBD',
+        distance: Number(distance) || 0,
+        notes: notes || '',
         createdAt: new Date(),
         updatedAt: new Date()
       };

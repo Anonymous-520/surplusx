@@ -28,6 +28,10 @@ const StatusChip = styled(Chip)(({ theme, status }) => ({
 }));
 
 const FoodCard = ({ listing }) => {
+  const locationLabel = listing?.location
+    ? `${listing.location.city || 'N/A'}, ${listing.location.state || 'N/A'}`
+    : 'Location unavailable';
+
   const getStatusText = (status) => {
     const statusMap = {
       AVAILABLE: 'Available',
@@ -83,7 +87,7 @@ const FoodCard = ({ listing }) => {
             size="small"
           />
           <Chip 
-            label={`${listing.location.city}, ${listing.location.state}`}
+            label={locationLabel}
             variant="outlined"
             size="small"
           />
@@ -98,7 +102,9 @@ const FoodCard = ({ listing }) => {
               {listing.matchedNgo.name}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {listing.distance ? `${(listing.distance / 1000).toFixed(1)} km away` : ''}
+              {typeof listing.distance === 'number' && listing.distance > 0
+                ? `${(listing.distance / 1000).toFixed(1)} km away`
+                : ''}
             </Typography>
           </Box>
         )}

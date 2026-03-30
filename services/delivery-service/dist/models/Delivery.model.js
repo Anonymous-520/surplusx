@@ -27,11 +27,12 @@ const deliverySchema = new mongoose.Schema({
   },
   estimatedDuration: {
     type: String,
-    required: true
+    default: 'TBD'
   },
   distance: {
     type: Number,
-    required: true
+    default: 0,
+    min: 0
   },
   route: {
     start: {
@@ -80,6 +81,7 @@ deliverySchema.index({
 // Update updatedAt before save
 deliverySchema.pre('save', function (next) {
   this.updatedAt = Date.now();
+  next();
 });
 const Delivery = mongoose.model('Delivery', deliverySchema);
 export default Delivery;

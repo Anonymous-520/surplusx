@@ -3,6 +3,36 @@ import axios from 'axios';
 const STORAGE_KEY = 'surplusx_donor_listings';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const foodApiCandidates = API_BASE_URL
+  ? [`${API_BASE_URL}/api/food`, `${API_BASE_URL}/food/listings`]
+  : [];
+
+const tryGetFromCandidates = async (paths) => {
+  for (const path of paths) {
+    try {
+      const { data } = await axios.get(path);
+      return data;
+    } catch {
+      // Try next candidate.
+    }
+  }
+
+  throw new Error('All candidate endpoints failed');
+};
+
+const tryPostToCandidates = async (paths, payload) => {
+  for (const path of paths) {
+    try {
+      const { data } = await axios.post(path, payload);
+      return data;
+    } catch {
+      // Try next candidate.
+    }
+  }
+
+  throw new Error('All candidate endpoints failed');
+};
+
 const readListings = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -21,10 +51,9 @@ const sortByNewest = (listings) => {
 };
 
 export const getFoodListings = async () => {
-  if (API_BASE_URL) {
+  if (foodApiCandidates.length > 0) {
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/food/listings`);
-      return data;
+      return await tryGetFromCandidates(foodApiCandidates);
     } catch {
       // Fallback to local demo data when backend is unavailable.
     }
@@ -49,10 +78,9 @@ export const getUserStats = async () => {
 };
 
 export const createFoodListing = async (payload) => {
-  if (API_BASE_URL) {
+  if (foodApiCandidates.length > 0) {
     try {
-      const { data } = await axios.post(`${API_BASE_URL}/food/listings`, payload);
-      return data;
+      return await tryPostToCandidates(foodApiCandidates, payload);
     } catch {
       // Fallback to local demo data when backend is unavailable.
     }
@@ -61,7 +89,7 @@ export const createFoodListing = async (payload) => {
   const listing = {
     id: `listing_${Date.now()}`,
     ...payload,
-    status: 'created',
+    status: 'AVAILABLE',
     createdAt: Date.now()
   };
 

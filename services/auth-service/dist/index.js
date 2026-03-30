@@ -12,6 +12,11 @@ const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.DB_HOST || 'l
 const hasMongoConfig = Boolean(mongoUri);
 let useDatabase = false;
 const inMemoryUsers = [];
+const ALLOWED_ROLES = new Set(['DONOR', 'NGO', 'VOLUNTEER', 'ADMIN']);
+const normalizeRole = value => {
+  const upper = String(value || 'DONOR').toUpperCase();
+  return ALLOWED_ROLES.has(upper) ? upper : 'DONOR';
+};
 
 // Middleware
 app.use(express.json());
@@ -42,6 +47,7 @@ app.post('/api/auth/register', async (req, res) => {
       phone,
       role
     } = req.body;
+    const normalizedRole = normalizeRole(role);
 
     // Check if user exists
     const existingUser = useDatabase ? await User.findOne({
@@ -63,14 +69,14 @@ app.post('/api/auth/register', async (req, res) => {
       email,
       password: hashedPassword,
       phone,
-      role
+      role: normalizedRole
     }) : {
       _id: `user_${Date.now()}`,
       name,
       email,
       password: hashedPassword,
       phone,
-      role
+      role: normalizedRole
     };
     if (useDatabase) {
       await user.save();

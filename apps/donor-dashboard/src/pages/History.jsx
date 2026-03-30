@@ -52,7 +52,7 @@ const History = () => {
                   Quantity: {item.quantity} {item.quantityUnit || 'kg'}
                 </Typography>
                 <Typography color="text.secondary">
-                  City: {item.city || 'N/A'}
+                  City: {item.city || item.location?.city || 'N/A'}
                 </Typography>
               </CardContent>
             </Card>

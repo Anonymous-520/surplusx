@@ -6,8 +6,17 @@
 # Install dependencies
 npm install
 
-# Start development environment
+# Start frontend only (donor dashboard)
+npm run dev:frontend
+
+# Start backend only (all services)
+npm run dev:backend
+
+# Start frontend + backend together
 npm run dev
+
+# Start all frontend apps together
+npm run dev:frontend:all
 
 # Build for production
 npm run build

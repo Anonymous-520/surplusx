@@ -4,10 +4,10 @@ import { Card, CardContent, Typography, Grid } from '@mui/material';
 const summarize = (listings) => {
   return listings.reduce(
     (acc, item) => {
-      const status = (item.status || 'created').toLowerCase();
-      if (status === 'matched') acc.matched += 1;
-      else if (status === 'picked_up') acc.pickedUp += 1;
-      else if (status === 'delivered') acc.delivered += 1;
+      const normalized = String(item.status || 'AVAILABLE').toUpperCase();
+      if (normalized === 'MATCHED') acc.matched += 1;
+      else if (normalized === 'PICKED_UP' || normalized === 'IN_TRANSIT') acc.pickedUp += 1;
+      else if (normalized === 'DELIVERED' || normalized === 'COMPLETED') acc.delivered += 1;
       else acc.created += 1;
       return acc;
     },

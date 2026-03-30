@@ -57,14 +57,20 @@ app.post('/api/deliveries', async (req, res) => {
       foodListingId,
       ngoId,
       volunteerId,
-      route
+      route,
+      estimatedDuration,
+      distance,
+      notes
     } = req.body;
     const delivery = useDatabase ? new Delivery({
       foodListingId,
       ngoId,
       volunteerId,
       status: 'ASSIGNED',
-      route
+      route,
+      estimatedDuration: estimatedDuration || 'TBD',
+      distance: Number(distance) || 0,
+      notes: notes || ''
     }) : {
       _id: `delivery_${Date.now()}`,
       foodListingId,
@@ -72,6 +78,9 @@ app.post('/api/deliveries', async (req, res) => {
       volunteerId,
       status: 'ASSIGNED',
       route,
+      estimatedDuration: estimatedDuration || 'TBD',
+      distance: Number(distance) || 0,
+      notes: notes || '',
       createdAt: new Date(),
       updatedAt: new Date()
     };
