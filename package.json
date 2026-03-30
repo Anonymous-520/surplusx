@@ -4,22 +4,22 @@
   "description": "Food redistribution platform",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "services/*",
-    "packages/*"
+  "frontend/*",
+  "backend/*",
+  "packages/*"
   ],
   "scripts": {
     "setup": "npm install --workspaces --include-workspace-root",
-    "hub:install": "npm install --workspace=services/api-gateway --workspace=services/matching-service --workspace=services/food-service --workspace=services/auth-service --workspace=services/delivery-service --workspace=apps/donor-dashboard",
+    "hub:install": "npm install --workspace=backend/api-gateway --workspace=backend/matching-service --workspace=backend/food-service --workspace=backend/auth-service --workspace=backend/delivery-service --workspace=frontend/donor-dashboard",
     "free-ports": "node scripts/free-ports.js",
     "predev": "npm run free-ports",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "dev:frontend": "npm run dev --workspace=apps/donor-dashboard",
-    "dev:frontend:all": "concurrently \"npm run dev --workspace=apps/donor-dashboard\" \"npm run dev --workspace=apps/ngo-dashboard\" \"npm run dev --workspace=apps/admin-panel\"",
-    "dev:backend": "concurrently \"npm run dev --workspace=services/api-gateway\" \"npm run dev --workspace=services/matching-service\" \"npm run dev --workspace=services/food-service\" \"npm run dev --workspace=services/auth-service\" \"npm run dev --workspace=services/delivery-service\" \"npm run start --workspace=services/ai-service\"",
-    "build": "npm run build --workspace=apps/donor-dashboard && npm run build --workspace=apps/ngo-dashboard && npm run build --workspace=apps/admin-panel",
+    "dev:frontend": "npm run dev --workspace=frontend/donor-dashboard",
+    "dev:frontend:all": "concurrently \"npm run dev --workspace=frontend/donor-dashboard\" \"npm run dev --workspace=frontend/ngo-dashboard\" \"npm run dev --workspace=frontend/admin-panel\"",
+    "dev:backend": "concurrently \"npm run dev --workspace=backend/api-gateway\" \"npm run dev --workspace=backend/matching-service\" \"npm run dev --workspace=backend/food-service\" \"npm run dev --workspace=backend/auth-service\" \"npm run dev --workspace=backend/delivery-service\" \"npm run start --workspace=backend/ai-service\"",
+    "build": "npm run build --workspace=frontend/donor-dashboard && npm run build --workspace=frontend/ngo-dashboard && npm run build --workspace=frontend/admin-panel",
     "test": "npm test --workspace=tests",
-    "start": "npm start --workspace=services/api-gateway"
+    "start": "npm start --workspace=backend/api-gateway"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
