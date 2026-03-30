@@ -4,9 +4,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from './models/User.model.js';
-
 dotenv.config();
-
 const app = express();
 const PORT = process.env.AUTH_SERVICE_PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'surplusx-dev-secret';
@@ -17,19 +15,19 @@ const inMemoryUsers = [];
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 
 // Database connection (optional for local development)
 if (hasMongoConfig) {
-  mongoose.connect(mongoUri)
-    .then(() => {
-      useDatabase = true;
-      console.log('🔗 Auth service connected to MongoDB');
-    })
-    .catch(() => {
-      useDatabase = false;
-      console.warn('⚠️ Auth service running in in-memory mode (MongoDB unavailable)');
-    });
+  mongoose.connect(mongoUri).then(() => {
+    useDatabase = true;
+    console.log('🔗 Auth service connected to MongoDB');
+  }).catch(() => {
+    useDatabase = false;
+    console.warn('⚠️ Auth service running in in-memory mode (MongoDB unavailable)');
+  });
 } else {
   console.log('ℹ️ Auth service running in in-memory mode (MongoDB not configured)');
 }
@@ -37,14 +35,22 @@ if (hasMongoConfig) {
 // User registration
 app.post('/api/auth/register', async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
+    const {
+      name,
+      email,
+      password,
+      phone,
+      role
+    } = req.body;
 
     // Check if user exists
-    const existingUser = useDatabase
-      ? await User.findOne({ email })
-      : inMemoryUsers.find((user) => user.email === email);
+    const existingUser = useDatabase ? await User.findOne({
+      email
+    }) : inMemoryUsers.find(user => user.email === email);
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({
+        error: 'User already exists'
+      });
     }
 
     // Hash password
@@ -52,23 +58,20 @@ app.post('/api/auth/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    const user = useDatabase
-      ? new User({
-        name,
-        email,
-        password: hashedPassword,
-        phone,
-        role
-      })
-      : {
-        _id: `user_${Date.now()}`,
-        name,
-        email,
-        password: hashedPassword,
-        phone,
-        role
-      };
-
+    const user = useDatabase ? new User({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role
+    }) : {
+      _id: `user_${Date.now()}`,
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role
+    };
     if (useDatabase) {
       await user.save();
     } else {
@@ -76,12 +79,12 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign(
-      { userId: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
-    );
-
+    const token = jwt.sign({
+      userId: user._id,
+      role: user.role
+    }, JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN || '1d'
+    });
     res.status(201).json({
       token,
       user: {
@@ -93,36 +96,45 @@ app.post('/api/auth/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed' });
+    res.status(500).json({
+      error: 'Registration failed'
+    });
   }
 });
 
 // User login
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const {
+      email,
+      password
+    } = req.body;
 
     // Check if user exists
-    const user = useDatabase
-      ? await User.findOne({ email })
-      : inMemoryUsers.find((item) => item.email === email);
+    const user = useDatabase ? await User.findOne({
+      email
+    }) : inMemoryUsers.find(item => item.email === email);
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({
+        error: 'Invalid credentials'
+      });
     }
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({
+        error: 'Invalid credentials'
+      });
     }
 
     // Generate token
-    const token = jwt.sign(
-      { userId: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
-    );
-
+    const token = jwt.sign({
+      userId: user._id,
+      role: user.role
+    }, JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN || '1d'
+    });
     res.json({
       token,
       user: {
@@ -134,7 +146,9 @@ app.post('/api/auth/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({
+      error: 'Login failed'
+    });
   }
 });
 
@@ -143,35 +157,39 @@ app.get('/api/auth/me', async (req, res) => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
     if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
+      return res.status(401).json({
+        error: 'No token provided'
+      });
     }
-
     const decoded = jwt.verify(token, JWT_SECRET);
-    const user = useDatabase
-      ? await User.findById(decoded.userId).select('-password')
-      : inMemoryUsers
-        .filter((item) => item._id === decoded.userId)
-        .map(({ password, ...safeUser }) => safeUser)[0];
-
+    const user = useDatabase ? await User.findById(decoded.userId).select('-password') : inMemoryUsers.filter(item => item._id === decoded.userId).map(({
+      password,
+      ...safeUser
+    }) => safeUser)[0];
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({
+        error: 'User not found'
+      });
     }
-
     res.json(user);
   } catch (error) {
     console.error('Profile error:', error);
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(401).json({
+      error: 'Invalid token'
+    });
   }
 });
 
 // Health check
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'healthy', service: 'auth-service' });
+  res.status(200).json({
+    status: 'healthy',
+    service: 'auth-service'
+  });
 });
 
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Auth service running on port ${PORT}`);
 });
-
 export default app;

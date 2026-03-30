@@ -1,0 +1,1 @@
+import{t as e}from"./rolldown-runtime-COnpUsM8.js";import{L as t}from"./mui-DdgpFKhn.js";var n=e((e=>{var n=t();e.createRoot=n.createRoot,e.hydrateRoot=n.hydrateRoot}));export{n as t};

@@ -1,11 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Food from '../models/Food.model.js';
-
 const router = express.Router();
 const listings = [];
-
-const toResponseShape = (record) => ({
+const toResponseShape = record => ({
   id: record._id?.toString?.() || record.id,
   title: record.title,
   description: record.description,
@@ -22,11 +20,9 @@ const toResponseShape = (record) => ({
   createdAt: record.createdAt,
   updatedAt: record.updatedAt
 });
-
 const normalizeListing = (payload = {}) => {
   const createdAt = Date.now();
   const id = payload.id || `food_${createdAt}`;
-
   return {
     id,
     title: payload.title || 'Untitled Listing',
@@ -52,16 +48,13 @@ const normalizeListing = (payload = {}) => {
     updatedAt: createdAt
   };
 };
-
 router.post('/', async (req, res) => {
   const useDatabase = Boolean(req.app.locals.useDatabase);
-
   if (!useDatabase) {
     const listing = normalizeListing(req.body);
     listings.unshift(listing);
     return res.status(201).json(listing);
   }
-
   try {
     const payload = req.body || {};
     const doc = new Food({
@@ -86,52 +79,53 @@ router.post('/', async (req, res) => {
       specialInstructions: payload.specialInstructions || '',
       status: payload.status || 'AVAILABLE'
     });
-
     const saved = await doc.save();
     return res.status(201).json(toResponseShape(saved));
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to create food listing' });
+    return res.status(500).json({
+      error: 'Failed to create food listing'
+    });
   }
 });
-
 router.get('/', async (req, res) => {
   const useDatabase = Boolean(req.app.locals.useDatabase);
-
   if (!useDatabase) {
     return res.json(listings);
   }
-
   try {
-    const docs = await Food.find().sort({ createdAt: -1 });
+    const docs = await Food.find().sort({
+      createdAt: -1
+    });
     return res.json(docs.map(toResponseShape));
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to fetch food listings' });
+    return res.status(500).json({
+      error: 'Failed to fetch food listings'
+    });
   }
 });
-
 router.get('/:id', async (req, res) => {
   const useDatabase = Boolean(req.app.locals.useDatabase);
-
   if (!useDatabase) {
-    const listing = listings.find((item) => item.id === req.params.id);
-
+    const listing = listings.find(item => item.id === req.params.id);
     if (!listing) {
-      return res.status(404).json({ error: 'Food listing not found' });
+      return res.status(404).json({
+        error: 'Food listing not found'
+      });
     }
-
     return res.json(listing);
   }
-
   try {
     const doc = await Food.findById(req.params.id);
     if (!doc) {
-      return res.status(404).json({ error: 'Food listing not found' });
+      return res.status(404).json({
+        error: 'Food listing not found'
+      });
     }
-
     return res.json(toResponseShape(doc));
   } catch (error) {
-    return res.status(400).json({ error: 'Invalid food listing id' });
+    return res.status(400).json({
+      error: 'Invalid food listing id'
+    });
   }
 });
-
 export default router;

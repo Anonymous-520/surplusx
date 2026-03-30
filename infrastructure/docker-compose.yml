@@ -2,21 +2,17 @@ version: '3.8'
 
 services:
   # Database
-  postgres:
-    image: postgres:15-alpine
-    container_name: surplusx_postgres
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+  mongo:
+    image: mongo:7
+    container_name: surplusx_mongo
     ports:
-      - "5432:5432"
+      - "27017:27017"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongo_data:/data/db
     networks:
       - surplusx_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -30,14 +26,10 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - MONGO_URI=mongodb://mongo:27017/surplusx
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
-      postgres:
+      mongo:
         condition: service_healthy
     networks:
       - surplusx_network
@@ -52,14 +44,10 @@ services:
     ports:
       - "${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}"
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - MONGO_URI=mongodb://mongo:27017/surplusx
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
-      postgres:
+      mongo:
         condition: service_healthy
     networks:
       - surplusx_network
@@ -74,13 +62,9 @@ services:
     ports:
       - "${FOOD_SERVICE_PORT}:${FOOD_SERVICE_PORT}"
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - MONGO_URI=mongodb://mongo:27017/surplusx
     depends_on:
-      postgres:
+      mongo:
         condition: service_healthy
     networks:
       - surplusx_network
@@ -156,7 +140,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  mongo_data:
 
 networks:
   surplusx_network:
